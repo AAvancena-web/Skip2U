@@ -157,9 +157,9 @@ p:last-child{margin-bottom:0}
   position:sticky;
   top:0;
   z-index:90;
-  background:var(--blue-deep);
-  border-bottom:1px solid rgba(255,255,255,.12);
-  box-shadow:0 6px 24px rgba(0,7,51,.22);
+  background:#fff;
+  border-bottom:1px solid var(--line);
+  box-shadow:0 4px 20px rgba(13,18,38,.07);
 }
 .site-header__inner{
   display:flex;
@@ -177,14 +177,14 @@ p:last-child{margin-bottom:0}
 .nav > ul > li > a{
   display:block;
   padding:12px 14px;
-  color:rgba(255,255,255,.86);
+  color:var(--ink);
   font-size:.93rem;
   font-weight:600;
   border-radius:9px;
   transition:color .16s ease,background-color .16s ease;
 }
 .nav > ul > li > a:hover,
-.nav > ul > li.is-current > a{color:#fff;background:rgba(255,255,255,.13)}
+.nav > ul > li.is-current > a{color:var(--blue);background:var(--blue-tint)}
 .nav .has-sub > a::after{
   content:"";
   display:inline-block;
@@ -199,10 +199,10 @@ p:last-child{margin-bottom:0}
   top:calc(100% + 10px);
   left:0;
   min-width:284px;
-  background:var(--blue);
-  border:1px solid rgba(255,255,255,.16);
+  background:#fff;
+  border:1px solid var(--line);
   border-radius:var(--radius);
-  box-shadow:0 22px 48px rgba(0,7,51,.4);
+  box-shadow:var(--shadow);
   padding:10px;
   display:block;
   flex-direction:column;
@@ -217,11 +217,11 @@ p:last-child{margin-bottom:0}
   display:block;
   padding:11px 14px;
   border-radius:9px;
-  color:rgba(255,255,255,.82);
+  color:var(--body);
   font-size:.9rem;
   font-weight:600;
 }
-.nav .sub a:hover{background:rgba(255,255,255,.14);color:#fff}
+.nav .sub a:hover{background:var(--blue-tint);color:var(--blue)}
 .nav .has-sub:hover .sub,
 .nav .has-sub:focus-within .sub{opacity:1;visibility:visible;transform:translateY(0)}
 
@@ -235,14 +235,14 @@ p:last-child{margin-bottom:0}
   justify-content:center;
   width:46px;height:46px;
   border-radius:50%;
-  background:var(--blue);
-  border:2px solid rgba(255,255,255,.34);
+  background:var(--blue-deep);
+  border:2px solid var(--blue-deep);
   color:#fff;
   flex:none;
   transition:background-color .18s ease,border-color .18s ease,transform .18s ease;
 }
 .phone-circle svg{width:19px;height:19px}
-.phone-circle:hover{background:var(--secondary);border-color:var(--secondary);transform:translateY(-1px)}
+.phone-circle:hover{background:var(--blue);border-color:var(--blue);transform:translateY(-1px)}
 
 .hamburger{
   display:none;
@@ -252,15 +252,15 @@ p:last-child{margin-bottom:0}
   gap:5px;
   width:46px;height:46px;
   padding:0;
-  border:2px solid rgba(255,255,255,.28);
+  border:2px solid var(--line);
   border-radius:12px;
-  background:transparent;
+  background:#fff;
   cursor:pointer;
 }
 .hamburger span{
   display:block;
   width:20px;height:2px;
-  background:#fff;
+  background:var(--ink);
   border-radius:2px;
   transition:transform .22s ease,opacity .18s ease;
 }
@@ -293,7 +293,7 @@ p:last-child{margin-bottom:0}
   top:0;right:0;
   width:min(400px,88vw);
   height:100%;
-  background:var(--blue-deep);
+  background:#fff;
   padding:24px 24px 130px;
   overflow-y:auto;
   transform:translateX(100%);
@@ -304,34 +304,33 @@ p:last-child{margin-bottom:0}
 .mobile-menu__top img{width:118px}
 .mobile-close{
   width:42px;height:42px;
-  border:2px solid rgba(255,255,255,.28);
+  border:2px solid var(--line);
   border-radius:12px;
-  background:transparent;
+  background:#fff;
   font-size:1.35rem;
   line-height:1;
-  color:#fff;
+  color:var(--ink);
   cursor:pointer;
 }
 .mobile-menu nav ul{list-style:none;margin:0;padding:0}
-.mobile-menu nav > ul > li{border-bottom:1px solid rgba(255,255,255,.12)}
+.mobile-menu nav > ul > li{border-bottom:1px solid var(--line)}
 .mobile-menu nav a{
   display:block;
   padding:14px 2px;
-  color:#fff;
+  color:var(--ink);
   font-weight:700;
   font-size:1rem;
 }
 .mobile-menu nav .sub{padding:0 0 10px 14px}
-.mobile-menu nav .sub a{font-weight:500;font-size:.94rem;color:rgba(255,255,255,.72);padding:9px 2px}
+.mobile-menu nav .sub a{font-weight:500;font-size:.94rem;color:var(--body);padding:9px 2px}
 .mobile-menu__cta{margin-top:26px;display:grid;gap:12px}
 .mobile-menu__meta{
   margin-top:26px;
   padding-top:20px;
-  border-top:1px solid rgba(255,255,255,.12);
+  border-top:1px solid var(--line);
   font-size:.9rem;
-  color:rgba(255,255,255,.72);
 }
-.mobile-menu__meta strong{display:block;color:#fff}
+.mobile-menu__meta strong{display:block;color:var(--ink)}
 
 /* ---------- Hero ---------- */
 .hero{position:relative;background:var(--blue-deep);overflow:hidden}
@@ -1154,7 +1153,7 @@ p:last-child{margin-bottom:0}
   <div class="container site-header__inner">
 
     <a class="brand" href="/" aria-label="Skip 2 U Tas home">
-      <img src="https://skip2utas.com.au/wp-content/uploads/2024/06/logo-new.png" alt="Skip 2 U Tas" width="217" height="118">
+      <img src="https://skip2utas.com.au/wp-content/uploads/2024/05/logo.png" alt="Skip 2 U Tas" width="217" height="118">
     </a>
 
     <nav class="nav" aria-label="Primary">
@@ -1209,7 +1208,7 @@ p:last-child{margin-bottom:0}
 <div class="mobile-menu" id="mobileMenu">
   <div class="mobile-menu__panel">
     <div class="mobile-menu__top">
-      <img src="https://skip2utas.com.au/wp-content/uploads/2024/06/logo-new.png" alt="Skip 2 U Tas">
+      <img src="https://skip2utas.com.au/wp-content/uploads/2024/05/logo.png" alt="Skip 2 U Tas">
       <button class="mobile-close" id="navClose" type="button" aria-label="Close menu">&times;</button>
     </div>
     <nav aria-label="Mobile">
@@ -1233,7 +1232,7 @@ p:last-child{margin-bottom:0}
     </nav>
     <div class="mobile-menu__cta">
       <a class="btn btn--primary btn--block" href="/skin-bin-hire-services-hobart/">Hire Skip Bin</a>
-      <a class="btn btn--ghost btn--block" href="tel:0408219527">Call 0408 219 527</a>
+      <a class="btn btn--outline btn--block" href="tel:0408219527">Call 0408 219 527</a>
     </div>
     <div class="mobile-menu__meta">
       <strong>Opening hours</strong>

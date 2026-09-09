@@ -1,0 +1,45 @@
+
+/* ---------------------------------------------------------------------------
+   Rules that exist only in the WordPress build: the inner page banner, the
+   mobile submenu toggle, and a wrapper for legacy page content.
+   --------------------------------------------------------------------------- */
+
+.s2u.page-hero{position:relative;background:var(--blue-deep);overflow:hidden}
+.s2u.page-hero .page-hero__media{position:absolute;inset:0}
+.s2u.page-hero .page-hero__media img{width:100%;height:100%;object-fit:cover}
+.s2u.page-hero .page-hero__media::after{
+  content:"";position:absolute;inset:0;
+  background:linear-gradient(180deg,rgba(0,7,51,.72) 0%,rgba(0,7,51,.6) 45%,rgba(0,7,51,.82) 100%);
+}
+.s2u.page-hero .page-hero__inner{
+  position:relative;z-index:2;text-align:center;
+  padding-top:clamp(56px,7vw,104px);padding-bottom:clamp(56px,7vw,104px);
+}
+.s2u.page-hero h1{color:#fff;margin-bottom:.35em;text-shadow:0 2px 20px rgba(0,7,51,.55)}
+.s2u.page-hero p{color:rgba(255,255,255,.9);font-size:18px;margin:0;text-shadow:0 1px 12px rgba(0,7,51,.6)}
+
+/* Mobile submenu toggle, injected by s2u.js */
+.s2u .mobile-menu .s2u-sub-toggle{
+  position:absolute;top:6px;right:0;
+  width:38px;height:38px;padding:0;
+  border:1px solid var(--line);border-radius:9px;
+  background:#fff;cursor:pointer;
+}
+.s2u .mobile-menu .s2u-sub-toggle::after{
+  content:"";display:block;width:8px;height:8px;margin:0 auto;
+  border-right:2px solid var(--ink);border-bottom:2px solid var(--ink);
+  transform:translateY(-2px) rotate(45deg);transition:transform .2s ease;
+}
+.s2u .mobile-menu .s2u-sub-toggle.is-open::after{transform:translateY(2px) rotate(-135deg)}
+.s2u .mobile-menu nav > ul > li{position:relative}
+
+/* Legacy page content keeps the theme's container, and is intentionally
+   left outside .s2u so the redesign stylesheet cannot restyle it. */
+.s2u-page-content{padding:clamp(40px,5vw,72px) 0}
+
+/* Defensive: the child theme sets .site-header{position:absolute} and
+   .site-footer{margin-top:0} globally. Ours are scoped and win on
+   specificity, but state it explicitly so a future theme edit cannot
+   drag the masthead out of flow. */
+.s2u.site-header{position:sticky !important;top:0}
+.s2u.s2u-footer,.s2u.site-footer{position:static}

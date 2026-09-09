@@ -511,19 +511,63 @@ p:last-child{margin-bottom:0}
 }
 .total-box .value{font-size:1.85rem;font-weight:900;color:var(--blue);letter-spacing:-.02em}
 .qty{display:flex;align-items:center;border:1.5px solid var(--line);border-radius:11px;overflow:hidden;background:var(--bg-soft)}
-.qty button{
+.qty .qty-btn{
   width:44px;height:48px;
   border:0;background:transparent;
   font-size:1.2rem;font-weight:700;color:var(--blue);
   cursor:pointer;
 }
-.qty button:hover{background:var(--blue-tint)}
-.qty input{
+.qty .qty-btn:hover{background:var(--blue-tint)}
+.qty .qty-input{
   width:56px;height:48px;
   border:0;border-left:1.5px solid var(--line);border-right:1.5px solid var(--line);
   background:#fff;
   text-align:center;font-weight:800;color:var(--ink);font-family:inherit;font-size:1rem;
+  -moz-appearance:textfield;
 }
+.qty .qty-input::-webkit-outer-spin-button,
+.qty .qty-input::-webkit-inner-spin-button{-webkit-appearance:none;margin:0}
+
+/* Shown by the theme while the cascading dropdowns reload. */
+.booking__loader{
+  display:flex;
+  align-items:center;
+  gap:11px;
+  margin-bottom:20px;
+  padding:12px 18px;
+  border-radius:11px;
+  background:var(--blue-tint);
+  color:var(--blue);
+  font-size:.9rem;
+  font-weight:700;
+}
+.booking__spinner{
+  width:16px;height:16px;
+  border:2px solid rgba(0,15,159,.25);
+  border-top-color:var(--blue);
+  border-radius:50%;
+  animation:booking-spin .7s linear infinite;
+}
+@keyframes booking-spin{to{transform:rotate(360deg)}}
+
+.booking__breakdown{
+  list-style:none;
+  margin:0 0 10px;
+  padding:0 0 10px;
+  border-bottom:1px solid var(--line);
+  display:grid;
+  gap:5px;
+  min-width:250px;
+}
+.booking__breakdown li{
+  display:flex;
+  align-items:baseline;
+  justify-content:space-between;
+  gap:20px;
+  font-size:.88rem;
+  color:var(--body);
+}
+.booking__breakdown li span:last-child{font-weight:700;color:var(--ink)}
 .booking__actions{display:flex;align-items:center;gap:14px;flex-wrap:wrap}
 .booking__note{
   margin-top:18px;
@@ -1270,42 +1314,63 @@ p:last-child{margin-bottom:0}
       </div>
 
       <div class="booking__body">
-        <form class="booking-form" onsubmit="return false;">
+
+        <!-- Theme AJAX toggles this while the cascading dropdowns reload. -->
+        <div class="booking__loader" id="buffer_photo" style="display:none;">
+          <span class="booking__spinner" aria-hidden="true"></span> Updating your quote...
+        </div>
+
+        <!--
+          Field ids, names and classes below match inshirt_form() in
+          skippagefront.php, so the child theme's inline jQuery and the
+          admin-ajax handlers bind to this markup unchanged. Remove the
+          onsubmit guard when moving into WordPress; the theme's own
+          submit handler calls preventDefault().
+        -->
+        <form class="skip-booking-form" id="skip_booking_form" name="skip_booking_form"
+              action="/wp-admin/admin-ajax.php" method="post" onsubmit="return false;">
+
           <div class="form-grid">
 
             <div class="field">
-              <label for="b-name">Full name <span class="req">*</span></label>
-              <input type="text" id="b-name" name="name" placeholder="e.g. Jane Wilson" autocomplete="name">
+              <label for="req_name">Full name <span class="req">*</span></label>
+              <input type="text" id="req_name" name="bin_form_name" class="skip-order skip-bin-tab user-detail" placeholder="e.g. Jane Wilson" autocomplete="name" required>
             </div>
 
             <div class="field">
-              <label for="b-company">Company name</label>
-              <input type="text" id="b-company" name="company" placeholder="If applicable" autocomplete="organization">
+              <label for="req_company_name">Company name</label>
+              <input type="text" id="req_company_name" name="bin_form_company_name" class="skip-order skip-bin-tab user-detail" placeholder="If applicable" autocomplete="organization">
             </div>
 
             <div class="field">
-              <label for="b-email">Email address <span class="req">*</span></label>
-              <input type="email" id="b-email" name="email" placeholder="you@example.com.au" autocomplete="email">
+              <label for="req_email">Email address <span class="req">*</span></label>
+              <input type="email" id="req_email" name="bin_form_email" class="skip-order skip-bin-tab user-detail" placeholder="you@example.com.au" autocomplete="email" required>
             </div>
 
             <div class="field">
-              <label for="b-phone">Phone number <span class="req">*</span></label>
-              <input type="tel" id="b-phone" name="phone" placeholder="0400 000 000" autocomplete="tel">
+              <label for="req_phone">Phone number <span class="req">*</span></label>
+              <input type="tel" id="req_phone" name="bin_form_phone" class="skip-order skip-bin-tab user-detail" placeholder="0400 000 000" autocomplete="tel" required>
+            </div>
+
+            <!-- jQuery UI datepicker attaches to both date fields, hence readonly. -->
+            <div class="field">
+              <label for="req_drop_off_date">Drop off date <span class="req">*</span></label>
+              <input type="text" id="req_drop_off_date" name="bin_form_dropoff_date" class="skip-order skip-bin-tab user-detail" placeholder="Select a date" readonly required>
             </div>
 
             <div class="field">
-              <label for="b-dropoff">Drop off date <span class="req">*</span></label>
-              <input type="text" id="b-dropoff" name="dropoff" placeholder="Select a date">
+              <label for="req_pickup_date">Pickup date <span class="req">*</span></label>
+              <input type="text" id="req_pickup_date" name="bin_form_pickup_date" class="skip-order skip-bin-tab user-detail" placeholder="Select a date" readonly required>
             </div>
 
+            <!--
+              The three selects cascade through admin-ajax in this order:
+              suburb -> waste type -> bin size -> cost. Options shown here
+              are placeholders; the handlers replace them at runtime.
+            -->
             <div class="field">
-              <label for="b-pickup">Pickup date <span class="req">*</span></label>
-              <input type="text" id="b-pickup" name="pickup" placeholder="Select a date">
-            </div>
-
-            <div class="field">
-              <label for="b-suburb">Suburb or postcode <span class="req">*</span></label>
-              <select id="b-suburb" name="suburb">
+              <label for="req_sub">Suburb or postcode <span class="req">*</span></label>
+              <select id="req_sub" class="skip-order skip-bin-tab suburb-select select2" required>
                 <option selected>Choose suburb</option>
                 <option>Bellerive 7018</option>
                 <option>Bonnet Hill 7053</option>
@@ -1317,8 +1382,8 @@ p:last-child{margin-bottom:0}
             </div>
 
             <div class="field">
-              <label for="b-waste">Waste type <span class="req">*</span></label>
-              <select id="b-waste" name="waste">
+              <label for="req_waste_type">Waste type <span class="req">*</span></label>
+              <select id="req_waste_type" class="skip-order skip-bin-tab waste-select select2" required>
                 <option selected>Choose waste type</option>
                 <option>General Waste</option>
                 <option>Green Waste</option>
@@ -1328,8 +1393,8 @@ p:last-child{margin-bottom:0}
             </div>
 
             <div class="field">
-              <label for="b-size">Bin size <span class="req">*</span></label>
-              <select id="b-size" name="size">
+              <label for="req_bin_size">Bin size <span class="req">*</span></label>
+              <select id="req_bin_size" class="skip-order skip-bin-tab bin-select select2" required>
                 <option selected>Choose bin size</option>
                 <option>2m&sup3; Mini Skip</option>
                 <option>3m&sup3; Skip Bin</option>
@@ -1340,27 +1405,74 @@ p:last-child{margin-bottom:0}
             </div>
 
             <div class="field field--full">
-              <label for="b-notes">Delivery instructions</label>
-              <textarea id="b-notes" name="notes" placeholder="Please note any special instructions for delivery, for example driveway access, gate codes or where to place the bin."></textarea>
+              <label for="req_order_note">Delivery instructions</label>
+              <textarea id="req_order_note" name="bin_form_order_note" class="skip-order skip-bin-tab user-detail" rows="4" placeholder="Please note any special instructions for delivery, for example driveway access, gate codes or where to place the bin."></textarea>
             </div>
 
           </div>
 
+          <!--
+            State the theme's jQuery reads and writes. Values are populated
+            by the cascade handlers and posted to skip_booking_detail_submit.
+          -->
+          <input type="hidden" name="action" value="skip_booking_detail_submit" id="steps_data_action">
+          <input type="hidden" id="home_url" value="">
+          <input type="hidden" id="zone_cost_json" value="">
+          <input type="hidden" name="skip_booking_form_id" id="skip_booking_form_id" value="">
+          <input type="hidden" name="sub_id" id="sub_id" value="">
+          <input type="hidden" name="sub_council_id" id="sub_council_id" value="">
+          <input type="hidden" name="sub_zone" id="sub_zone" value="">
+          <input type="hidden" name="sub_postcode" id="sub_postcode" value="">
+          <input type="hidden" name="waste_id" id="waste_id" value="">
+          <input type="hidden" name="skip_volume" id="skip_volume" value="">
+          <input type="hidden" name="skip_cost" id="skip_cost" value="">
+          <input type="hidden" name="skip_id" id="skip_id" value="">
+          <input type="hidden" name="skip_tonnage" id="skip_tonnage" value="">
+          <input type="hidden" name="skip_no_of_tyre" id="skip_no_of_tyre" value="">
+          <input type="hidden" name="skip_tyre_cost" id="skip_tyre_cost" value="">
+          <input type="hidden" name="skip_tyre_cost_per" id="skip_tyre_cost_per" value="">
+          <input type="hidden" name="skip_no_of_mattress" id="skip_no_of_mattress" value="">
+          <input type="hidden" name="skip_mattress_cost" id="skip_mattress_cost" value="">
+          <input type="hidden" name="skip_mattress_cost_per" id="skip_mattress_cost_per" value="">
+          <input type="hidden" name="skip_council_cost" id="skip_council_cost" value="">
+          <input type="hidden" name="skip_overweight_cost" id="skip_overweight_cost" value="">
+          <input type="hidden" name="skip_overweight_cost_per_ton" id="skip_overweight_cost_per_ton" value="">
+          <input type="hidden" name="skip_gst_percentage" id="skip_gst_percentage" value="">
+          <input type="hidden" name="skip_gst_cost" id="skip_gst_cost" value="">
+          <input type="hidden" name="waste_opts_allowed" id="waste_opts_allowed" value="">
+          <input type="hidden" id="cart_have_item" value="">
+          <input type="hidden" id="skip_name" value="">
+          <input type="hidden" id="waste_name" value="">
+          <input type="hidden" id="waste_wp_slug" value="">
+          <input type="hidden" id="waste_description" value="">
+          <input type="hidden" id="waste_summary" value="">
+          <input type="hidden" id="sub_name" value="">
+          <input type="hidden" id="sub_description" value="">
+          <input type="hidden" id="skip_description" value="">
+          <input type="hidden" id="first_time_load" value="1">
+
           <div class="booking__foot">
             <div class="booking__total">
               <div class="total-box">
+                <!-- The cascade already computes these three; showing them
+                     turns an existing calculation into visible pricing. -->
+                <ul class="booking__breakdown">
+                  <li><span>Skip bin hire</span><span id="total_cost">-</span></li>
+                  <li><span>Delivery</span><span id="delivery_cost">-</span></li>
+                  <li><span>Payment processing</span><span id="payment_processing_fee_cost">-</span></li>
+                </ul>
                 <span class="label">Total including delivery and fees</span>
-                <span class="value">$0.00</span>
+                <span class="value" id="all_total_cost">$0.00</span>
               </div>
-              <div class="qty">
-                <button type="button" aria-label="Decrease quantity">&minus;</button>
-                <input type="number" value="1" min="1" aria-label="Number of bins">
-                <button type="button" aria-label="Increase quantity">+</button>
+              <div class="qty qty-container">
+                <button class="qty-btn minus" type="button" aria-label="Decrease quantity">&minus;</button>
+                <input type="number" class="qty-input" id="skip_qty" name="skip_qty" value="1" min="1" aria-label="Number of bins">
+                <button class="qty-btn plus" type="button" aria-label="Increase quantity">+</button>
               </div>
             </div>
             <div class="booking__actions">
               <a class="btn btn--outline" href="tel:0408219527">Prefer to call?</a>
-              <button class="btn btn--primary btn--lg" type="submit">
+              <button class="btn btn--primary btn--lg button custom_btn" type="submit" name="continue_booking">
                 Add to cart
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
               </button>
@@ -2096,13 +2208,14 @@ p:last-child{margin-bottom:0}
     if (e.key === 'Escape') setMenu(false);
   });
 
-  /* Quantity stepper, visual only for now */
+  /* Quantity stepper. Visual only here: in WordPress the theme's own
+     .qty-btn handler recalculates the total, so drop this block. */
   document.querySelectorAll('.qty').forEach(function (box) {
-    var input = box.querySelector('input');
-    box.querySelectorAll('button').forEach(function (btn, i) {
+    var input = box.querySelector('.qty-input');
+    box.querySelectorAll('.qty-btn').forEach(function (btn) {
       btn.addEventListener('click', function () {
         var v = parseInt(input.value, 10) || 1;
-        input.value = i === 0 ? Math.max(1, v - 1) : v + 1;
+        input.value = btn.classList.contains('minus') ? Math.max(1, v - 1) : v + 1;
       });
     });
   });

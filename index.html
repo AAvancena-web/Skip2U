@@ -810,57 +810,19 @@ p:last-child{margin-bottom:0}
 @media (max-width:600px){.reviews{grid-template-columns:1fr}}
 
 /* ---------- Partner logos ---------- */
-.logo-carousel{position:relative;display:flex;align-items:center;gap:14px}
-.logo-track{
-  display:flex;
-  align-items:center;
-  gap:clamp(24px,3.5vw,56px);
-  flex:1;
-  overflow-x:auto;
-  scroll-behavior:smooth;
-  scroll-snap-type:x mandatory;
-  -webkit-overflow-scrolling:touch;
-  scrollbar-width:none;
-  padding:8px 0;
-}
-.logo-track::-webkit-scrollbar{display:none}
 /* Logos sit directly on the page: several already carry their own
    background colour, so any card behind them reads as a double frame. */
-.logo-track figure{
-  margin:0;
-  flex:0 0 calc((100% - 4 * clamp(24px,3.5vw,56px)) / 5);
+.logos{
   display:grid;
-  place-items:center;
-  scroll-snap-align:start;
+  grid-template-columns:repeat(8,minmax(0,1fr));
+  gap:clamp(18px,2.2vw,34px);
+  align-items:center;
+  justify-items:center;
 }
-.logo-track img{
-  max-height:104px;
-  width:auto;
-  max-width:100%;
-  object-fit:contain;
-}
-.logo-nav{
-  flex:none;
-  display:grid;
-  place-items:center;
-  width:36px;height:36px;
-  padding:0;
-  border:0;
-  border-radius:50%;
-  background:var(--secondary);
-  color:#fff;
-  cursor:pointer;
-  transition:background-color .18s ease,transform .18s ease;
-}
-.logo-nav svg{width:15px;height:15px}
-.logo-nav:hover{background:var(--orange-dark);transform:scale(1.06)}
-@media (max-width:1100px){
-  .logo-track figure{flex:0 0 calc((100% - 2 * clamp(24px,3.5vw,56px)) / 3)}
-}
-@media (max-width:640px){
-  .logo-track figure{flex:0 0 calc((100% - clamp(24px,3.5vw,56px)) / 2)}
-  .logo-nav{display:none}
-}
+.logos figure{margin:0;display:grid;place-items:center}
+.logos img{max-height:92px;width:auto;max-width:100%;object-fit:contain}
+@media (max-width:1100px){.logos{grid-template-columns:repeat(4,minmax(0,1fr))}}
+@media (max-width:560px){.logos{grid-template-columns:repeat(2,minmax(0,1fr))}}
 
 /* ---------- CTA band ---------- */
 .cta-band{position:relative;overflow:hidden;background:var(--blue-deep)}
@@ -1759,23 +1721,15 @@ p:last-child{margin-bottom:0}
       <span class="eyebrow">Trusted by local business</span>
       <h2>Proudly Working With</h2>
     </div>
-    <div class="logo-carousel">
-      <button class="logo-nav" type="button" data-logo-dir="-1" aria-label="Previous logos">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
-      </button>
-      <div class="logo-track" id="logoTrack">
-        <figure><img src="https://skip2utas.com.au/wp-content/uploads/2024/05/logo-1.jpg" alt="Client logo" loading="lazy"></figure>
-        <figure><img src="https://skip2utas.com.au/wp-content/uploads/2024/05/logo-2.jpg" alt="Client logo" loading="lazy"></figure>
-        <figure><img src="https://skip2utas.com.au/wp-content/uploads/2024/05/logo-3.jpg" alt="Client logo" loading="lazy"></figure>
-        <figure><img src="https://skip2utas.com.au/wp-content/uploads/2024/05/logo-4.jpg" alt="Client logo" loading="lazy"></figure>
-        <figure><img src="https://skip2utas.com.au/wp-content/uploads/2024/05/logo-5.jpg" alt="Client logo" loading="lazy"></figure>
-        <figure><img src="https://skip2utas.com.au/wp-content/uploads/2024/05/logo-6.jpg" alt="Client logo" loading="lazy"></figure>
-        <figure><img src="https://skip2utas.com.au/wp-content/uploads/2024/05/logo-7.jpg" alt="Client logo" loading="lazy"></figure>
-        <figure><img src="https://skip2utas.com.au/wp-content/uploads/2024/05/logo-8.jpg" alt="Client logo" loading="lazy"></figure>
-      </div>
-      <button class="logo-nav" type="button" data-logo-dir="1" aria-label="Next logos">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
-      </button>
+    <div class="logos">
+      <figure><img src="https://skip2utas.com.au/wp-content/uploads/2024/05/logo-1.jpg" alt="Client logo" loading="lazy"></figure>
+      <figure><img src="https://skip2utas.com.au/wp-content/uploads/2024/05/logo-2.jpg" alt="Client logo" loading="lazy"></figure>
+      <figure><img src="https://skip2utas.com.au/wp-content/uploads/2024/05/logo-3.jpg" alt="Client logo" loading="lazy"></figure>
+      <figure><img src="https://skip2utas.com.au/wp-content/uploads/2024/05/logo-4.jpg" alt="Client logo" loading="lazy"></figure>
+      <figure><img src="https://skip2utas.com.au/wp-content/uploads/2024/05/logo-5.jpg" alt="Client logo" loading="lazy"></figure>
+      <figure><img src="https://skip2utas.com.au/wp-content/uploads/2024/05/logo-6.jpg" alt="Client logo" loading="lazy"></figure>
+      <figure><img src="https://skip2utas.com.au/wp-content/uploads/2024/05/logo-7.jpg" alt="Client logo" loading="lazy"></figure>
+      <figure><img src="https://skip2utas.com.au/wp-content/uploads/2024/05/logo-8.jpg" alt="Client logo" loading="lazy"></figure>
     </div>
   </div>
 </section>
@@ -2131,17 +2085,6 @@ p:last-child{margin-bottom:0}
   document.addEventListener('keydown', function (e) {
     if (e.key === 'Escape') setMenu(false);
   });
-
-  /* Logo carousel arrows */
-  var track = document.getElementById('logoTrack');
-  if (track) {
-    document.querySelectorAll('[data-logo-dir]').forEach(function (btn) {
-      btn.addEventListener('click', function () {
-        var dir = parseInt(btn.getAttribute('data-logo-dir'), 10);
-        track.scrollBy({ left: dir * track.clientWidth, behavior: 'smooth' });
-      });
-    });
-  }
 
   /* Quantity stepper, visual only for now */
   document.querySelectorAll('.qty').forEach(function (box) {

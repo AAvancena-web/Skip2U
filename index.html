@@ -347,15 +347,23 @@ p:last-child{margin-bottom:0}
 .hero__inner{
   position:relative;
   z-index:2;
-  padding:clamp(64px,8vw,132px) 0 clamp(72px,8vw,124px);
+  padding-top:clamp(64px,8vw,132px);
+  padding-bottom:clamp(72px,8vw,124px);
   text-align:center;
 }
 .hero__content{
-  display:flex;
-  flex-direction:column;
-  align-items:center;
+  /* Single grid column sized by the headline. The lead and the points row
+     are given width:0 so they add nothing to that intrinsic width, then
+     min-width:100% stretches them back out to whatever the H1 settled on,
+     which keeps their left and right edges flush with the title. */
+  display:grid;
+  justify-items:center;
+  justify-content:center;
   text-align:center;
 }
+.hero__content > *{grid-column:1;max-width:100%}
+.hero__lead,
+.hero__points{width:0;min-width:100%}
 .hero__badge{
   display:inline-flex;
   align-items:center;
@@ -890,7 +898,8 @@ p:last-child{margin-bottom:0}
 .cta-band__inner{
   position:relative;
   z-index:2;
-  padding:clamp(56px,6vw,92px) 0;
+  padding-top:clamp(56px,6vw,92px);
+  padding-bottom:clamp(56px,6vw,92px);
   display:flex;
   align-items:center;
   justify-content:space-between;
@@ -2001,8 +2010,8 @@ p:last-child{margin-bottom:0}
           <span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0z"/><circle cx="12" cy="10" r="3"/></svg></span>
           <div>
             <h4>Where we are</h4>
-            <p>Forcett, Southern Beaches</p>
-            <p class="small">Servicing greater Hobart and Southern Tasmania</p>
+            <p>Southern Tasmania</p>
+            <p class="small">Servicing greater Hobart and surrounding areas</p>
           </div>
         </div>
 
@@ -2024,7 +2033,7 @@ p:last-child{margin-bottom:0}
       <div class="map-embed">
         <iframe
           title="Skip 2 U Tas service area map"
-          src="https://www.google.com/maps?q=Forcett%2C%20Tasmania%2C%20Australia&z=10&output=embed"
+          src="https://www.google.com/maps?q=Southern%20Tasmania%2C%20Australia&z=9&output=embed"
           loading="lazy"
           referrerpolicy="no-referrer-when-downgrade"
           allowfullscreen></iframe>
@@ -2085,7 +2094,7 @@ p:last-child{margin-bottom:0}
         <ul class="footer-contact">
           <li>
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0z"/><circle cx="12" cy="10" r="3"/></svg>
-            <span>Forcett, Southern Beaches<br>Southern Tasmania</span>
+            <span>Southern Tasmania</span>
           </li>
           <li>
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.9.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z"/></svg>

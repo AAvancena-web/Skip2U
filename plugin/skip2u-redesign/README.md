@@ -17,7 +17,7 @@ what it was**, with no files to restore.
    activate.
 3. Seed the content, either:
    - `wp s2u seed` (add `--dry-run` first to preview, `--force` to re-run), or
-   - *Site Content > Seed content*, tick nothing, press **Run seeder**.
+   - *Site Content > Seed content* (`/wp-admin/admin.php?page=s2u-seed`), press **Run seeder**.
 4. Assign the two footer menus under *Appearance > Menus*:
    - Redesign: Footer quick links
    - Redesign: Footer services

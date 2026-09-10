@@ -8,7 +8,7 @@
  *
  * Run it either way:
  *   wp s2u seed              (add --force to re-run, --dry-run to preview)
- *   Site Content > Seed tab  (button, capability and nonce checked)
+ *   admin.php?page=s2u-seed   (Site Content > Seed content; nonce and capability checked)
  *
  * @package skip2u-redesign
  */
@@ -397,10 +397,31 @@ if ( defined( 'WP_CLI' ) && WP_CLI ) {
 
 /**
  * Admin fallback for installs without WP-CLI.
+ *
+ * Runs at priority 100 because ACF registers its options pages on admin_menu
+ * at 99. Registering earlier leaves this submenu parented to a menu that does
+ * not exist yet, so it never appears in the sidebar.
+ *
+ * Reachable at: /wp-admin/admin.php?page=s2u-seed
  */
 function s2u_seed_admin_page() {
-	add_submenu_page(
-		's2u-site-content',
+	global $admin_page_hooks;
+
+	// Nest under Site Content when that options page exists, otherwise fall
+	// back to Tools so the seeder is never stranded.
+	if ( isset( $admin_page_hooks['s2u-site-content'] ) ) {
+		add_submenu_page(
+			's2u-site-content',
+			'Seed content',
+			'Seed content',
+			'manage_options',
+			's2u-seed',
+			's2u_seed_admin_screen'
+		);
+		return;
+	}
+
+	add_management_page(
 		'Seed content',
 		'Seed content',
 		'manage_options',
@@ -408,7 +429,7 @@ function s2u_seed_admin_page() {
 		's2u_seed_admin_screen'
 	);
 }
-add_action( 'admin_menu', 's2u_seed_admin_page', 20 );
+add_action( 'admin_menu', 's2u_seed_admin_page', 100 );
 
 /**
  * Render the seed screen.
